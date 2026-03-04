@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timbuktu Café — Observatory, Cape Town</title>
+  <meta name="description" content="Authentic Ethiopian cuisine in a quirky, object-filled house. 16 Lower Main Rd, Observatory, Cape Town." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ────────────────────────────────────────────── */
+    :root {
+      /* PRIMARY — vivid magenta-crimson from the walls */
+      --crimson:    #B5184F;
+      --crimson-dk: #8C0E3A;
+      --crimson-lt: #D42060;
+      --crimson-pale: #F2D0DC;
+
+      /* SECONDARY — warm earthy brown/wood tones */
+      --black:      #1A0F0A;
+      --espresso:   #3D1F10;
+      --brown:      #6B3A22;
+      --amber:      #C8922A;
+      --amber-lt:   #E8B84B;
+
+      /* BACKGROUNDS — warm off-whites with a rustic tint */
+      --cream:      #FAF0E6;
+      --cream-dk:   #F0E0CC;
+      --warm-white: #FDF6EE;
+      --rust-bg:    #F7E8D8;
+
+      --text:       #3D1F10;
+      --text-muted: #7A4A30;
+
+      --ff-logo:    'Alfa Slab One', serif;
+      --ff-display: 'Alfa Slab One', serif;
+      --ff-body:    'Cormorant Garamond', serif;
+      --ff-caps:    'Oswald', sans-serif;
+
+      --nav-h: 72px;
+      --section-pad: clamp(60px, 10vw, 120px);
+    }
+
+    /* ─── RESET ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--ff-body);
+      background: var(--warm-white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    /* ─── NOISE TEXTURE OVERLAY ─────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 60px);
+      transition: background .4s ease, box-shadow .4s ease;
+    }
+    #nav.scrolled {
+      background: rgba(26,15,10,.97);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 0 rgba(181,24,79,.4);
+    }
+    .nav-logo {
+      font-family: var(--ff-logo);
+      font-size: clamp(20px, 2.8vw, 28px);
+      font-weight: 400;
+      color: var(--cream);
+      letter-spacing: .02em;
+      line-height: 1;
+      text-transform: uppercase;
+      /* Mimic the outlined/shadow style of the signage */
+      -webkit-text-stroke: 1.5px var(--crimson);
+      paint-order: stroke fill;
+      text-shadow: 2px 2px 0 var(--crimson-dk);
+    }
+    .nav-logo .cafe-sub {
+      display: block;
+      font-family: var(--ff-caps);
+      font-size: 9px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      -webkit-text-stroke: 0;
+      text-shadow: none;
+      margin-top: 1px;
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex; gap: clamp(20px, 3vw, 40px); align-items: center;
+    }
+    .nav-links a {
+      font-family: var(--ff-caps);
+      font-size: 12px; font-weight: 400;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: rgba(245,239,230,.75);
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-cta {
+      font-family: var(--ff-caps);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--cream) !important;
+      background: var(--crimson);
+      padding: 10px 22px;
+      border-radius: 2px;
+      border: 1px solid var(--crimson);
+      transition: background .25s, color .25s !important;
+    }
+    .nav-cta:hover { background: var(--crimson-lt) !important; border-color: var(--crimson-lt) !important; }
+
+    /* hamburger */
+    .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-burger span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 2px; transition: .3s; }
+    .nav-mobile {
+      display: none; position: fixed; inset: 0; z-index: 99;
+      background: rgba(17,16,16,.98);
+      flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      font-family: var(--ff-display);
+      font-size: clamp(28px, 7vw, 42px);
+      font-weight: 700; color: var(--cream); letter-spacing: .03em;
+      transition: color .2s;
+    }
+    .nav-mobile a:hover { color: var(--amber); }
+    .nav-mobile-close {
+      position: absolute; top: 24px; right: 24px;
+      font-size: 32px; color: var(--cream); cursor: pointer; background: none; border: none;
+    }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    #hero {
+      position: relative; width: 100%; height: 100svh; min-height: 600px;
+      display: flex; align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('/mnt/user-data/uploads/Heroshot.png') center center / cover no-repeat;
+      transform: scale(1.04);
+      animation: heroZoom 18s ease-out forwards;
+    }
+    @keyframes heroZoom { to { transform: scale(1); } }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(17,8,6,.92) 0%,
+        rgba(44,24,16,.55) 40%,
+        rgba(0,0,0,.2) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: clamp(40px, 8vw, 80px) clamp(24px, 6vw, 80px);
+      max-width: 800px;
+      animation: heroUp 1.2s cubic-bezier(.16,1,.3,1) .3s both;
+    }
+    @keyframes heroUp { from { opacity:0; transform: translateY(40px); } to { opacity:1; transform: none; } }
+    .hero-eyebrow {
+      font-family: var(--ff-caps);
+      font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 40px; height: 1px; background: var(--amber);
+    }
+    .hero-title {
+      font-family: var(--ff-logo);
+      font-size: clamp(52px, 11vw, 110px);
+      font-weight: 400;
+      line-height: .92;
+      color: var(--cream);
+      letter-spacing: .01em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      -webkit-text-stroke: 2px var(--crimson);
+      paint-order: stroke fill;
+      text-shadow: 4px 4px 0 var(--crimson-dk), 6px 6px 0 rgba(0,0,0,.3);
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--crimson);
+      display: block;
+      -webkit-text-stroke: 2px var(--crimson-dk);
+      text-shadow: 3px 3px 0 var(--crimson-dk);
+    }
+    .hero-sub {
+      font-family: var(--ff-body);
+      font-size: clamp(16px, 2.2vw, 21px);
+      font-weight: 300; font-style: italic;
+      color: rgba(245,239,230,.8);
+      margin-bottom: 36px;
+      max-width: 480px; line-height: 1.55;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      font-family: var(--ff-caps);
+      font-size: 12px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase;
+      background: var(--crimson); color: var(--cream);
+      padding: 16px 36px; border-radius: 2px;
+      border: 1px solid var(--crimson);
+      transition: background .25s, border-color .25s;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--crimson-lt); border-color: var(--crimson-lt); }
+    .btn-outline {
+      font-family: var(--ff-caps);
+      font-size: 12px; font-weight: 400; letter-spacing: .15em; text-transform: uppercase;
+      background: transparent; color: var(--cream);
+      padding: 16px 36px; border-radius: 2px;
+      border: 1px solid rgba(245,239,230,.4);
+      transition: border-color .25s, color .25s;
+      cursor: pointer;
+    }
+    .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
+    .hero-scroll {
+      position: absolute; bottom: 32px; right: clamp(24px, 5vw, 60px);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .hero-scroll span {
+      font-family: var(--ff-caps); font-size: 9px; letter-spacing: .2em;
+      text-transform: uppercase; color: rgba(245,239,230,.5);
+      writing-mode: vertical-rl;
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, rgba(200,146,42,.8), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    /* ─── SECTION SHARED ────────────────────────────────────── */
+    section { position: relative; }
+    .section-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: var(--section-pad) clamp(24px, 6vw, 80px);
+    }
+    .section-label {
+      font-family: var(--ff-caps);
+      font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--amber); }
+    .section-title {
+      font-family: var(--ff-logo);
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 400; line-height: 1.05;
+      color: var(--espresso);
+      text-transform: uppercase;
+      letter-spacing: .02em;
+    }
+    .section-title.light { color: var(--cream); }
+
+    /* ─── ABOUT ──────────────────────────────────────────────── */
+    #about { background: var(--warm-white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 80px);
+      align-items: center;
+    }
+    .about-images {
+      position: relative;
+    }
+    .about-img-main {
+      width: 100%; aspect-ratio: 3/4;
+      object-fit: cover; border-radius: 3px;
+      box-shadow: 12px 12px 0 var(--crimson);
+    }
+    .about-img-float {
+      position: absolute; bottom: -30px; right: -24px;
+      width: 55%; aspect-ratio: 1;
+      object-fit: cover; border-radius: 3px;
+      border: 4px solid var(--warm-white);
+      box-shadow: 8px 8px 24px rgba(44,24,16,.3);
+    }
+    .about-text { padding-left: clamp(0px, 2vw, 20px); }
+    .about-text .section-title { margin-bottom: 28px; }
+    .about-body {
+      font-size: clamp(17px, 1.8vw, 20px);
+      line-height: 1.75; font-weight: 300;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .about-body strong { color: var(--espresso); font-weight: 500; }
+    .about-divider {
+      width: 60px; height: 3px;
+      background: linear-gradient(to right, var(--crimson), var(--crimson-lt));
+      margin: 32px 0;
+    }
+    .about-badges {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px;
+    }
+    .badge {
+      font-family: var(--ff-caps);
+      font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--crimson); border: 1px solid var(--crimson);
+      padding: 6px 14px; border-radius: 2px;
+      transition: background .2s, color .2s;
+    }
+    .badge:hover { background: var(--crimson); color: var(--cream); }
+
+    /* ─── MARQUEE ────────────────────────────────────────────── */
+    .marquee-strip {
+      background: var(--crimson);
+      padding: 14px 0; overflow: hidden;
+      border-top: 1px solid var(--crimson-lt);
+      border-bottom: 1px solid var(--crimson-dk);
+    }
+    .marquee-track {
+      display: flex; gap: 0; white-space: nowrap;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-track span {
+      font-family: var(--ff-caps);
+      font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(245,239,230,.85);
+      padding: 0 28px;
+    }
+    .marquee-track span.dot { color: var(--amber); padding: 0 4px; }
+    @keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+
+    /* ─── MENU ───────────────────────────────────────────────── */
+    #menu { background: #2A1008; }
+    #menu .section-title { color: var(--cream); margin-bottom: 8px; }
+    #menu .section-label { color: var(--crimson-lt); }
+    .menu-intro {
+      font-size: clamp(16px, 1.8vw, 19px);
+      font-style: italic; font-weight: 300;
+      color: rgba(245,239,230,.6); margin-bottom: 48px;
+      max-width: 560px;
+    }
+    .menu-tabs {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 48px;
+    }
+    .tab-btn {
+      font-family: var(--ff-caps);
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      background: transparent; color: rgba(245,239,230,.55);
+      border: 1px solid rgba(245,239,230,.15);
+      padding: 9px 18px; border-radius: 2px; cursor: pointer;
+      transition: all .25s;
+    }
+    .tab-btn:hover { border-color: var(--crimson-lt); color: var(--crimson-lt); }
+    .tab-btn.active {
+      background: var(--crimson); color: var(--cream);
+      border-color: var(--crimson);
+    }
+    .menu-panel { display: none; }
+    .menu-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; }
+    .menu-item {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(245,239,230,.06);
+      padding: 22px 24px;
+      transition: background .2s;
+    }
+    .menu-item:hover { background: rgba(181,24,79,.08); }
+    .menu-item-top {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 12px; margin-bottom: 6px;
+    }
+    .menu-item-name {
+      font-family: var(--ff-body);
+      font-size: clamp(16px, 1.6vw, 18px);
+      font-weight: 500; color: var(--cream); line-height: 1.3;
+    }
+    .menu-item-price {
+      font-family: var(--ff-caps);
+      font-size: 14px; font-weight: 500;
+      color: var(--crimson-lt); white-space: nowrap; flex-shrink: 0;
+    }
+    .menu-item-desc {
+      font-size: 14px; font-weight: 300; font-style: italic;
+      color: rgba(245,239,230,.45); line-height: 1.5;
+    }
+    .menu-note {
+      margin-top: 48px;
+      font-size: 14px; font-style: italic;
+      color: rgba(245,239,230,.35);
+      text-align: center;
+      font-family: var(--ff-body);
+    }
+
+    /* ─── GALLERY ────────────────────────────────────────────── */
+    #gallery { background: var(--rust-bg); }
+    #gallery .section-title { margin-bottom: 40px; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 10px;
+    }
+    .gal-item { overflow: hidden; border-radius: 2px; }
+    .gal-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+    }
+    .gal-item:hover img { transform: scale(1.05); }
+    .gal-1 { grid-column: span 5; grid-row: span 2; aspect-ratio: 4/5; }
+    .gal-2 { grid-column: span 4; grid-row: span 1; aspect-ratio: 16/10; }
+    .gal-3 { grid-column: span 3; grid-row: span 1; aspect-ratio: 3/4; }
+    .gal-4 { grid-column: span 7; grid-row: span 1; aspect-ratio: 16/8; }
+    .gal-5 { grid-column: span 3; grid-row: span 2; aspect-ratio: 3/5; }
+    .gal-6 { grid-column: span 4; grid-row: span 1; aspect-ratio: 4/3; }
+    .gal-7 { grid-column: span 5; grid-row: span 1; aspect-ratio: 5/3; }
+
+    /* ─── HOURS + CONTACT ────────────────────────────────────── */
+    #info {
+      background: var(--cream-dk);
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 80px);
+    }
+    .info-card {
+      background: var(--warm-white);
+      border: 1px solid rgba(181,24,79,.12);
+      padding: clamp(28px, 4vw, 48px);
+      border-radius: 3px;
+      position: relative; overflow: hidden;
+    }
+    .info-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: linear-gradient(to bottom, var(--crimson), var(--crimson-lt));
+    }
+    .info-card-title {
+      font-family: var(--ff-display);
+      font-size: 28px; font-weight: 700;
+      color: var(--espresso); margin-bottom: 28px;
+    }
+    .hours-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(44,24,16,.08);
+      font-size: 16px;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day { font-weight: 500; color: var(--espresso); }
+    .hours-time { color: var(--text-muted); font-style: italic; }
+    .hours-row.today .hours-day { color: var(--crimson); font-weight: 600; }
+    .hours-row.today .hours-time { color: var(--crimson); }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      margin-bottom: 24px;
+    }
+    .contact-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: var(--crimson);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .contact-icon svg { width: 18px; height: 18px; fill: var(--cream); }
+    .contact-label {
+      font-family: var(--ff-caps);
+      font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 4px;
+    }
+    .contact-value {
+      font-size: 17px; font-weight: 400; color: var(--espresso); line-height: 1.4;
+    }
+    .contact-value a { transition: color .2s; }
+    .contact-value a:hover { color: var(--crimson); }
+    .ig-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-top: 28px;
+      font-family: var(--ff-caps);
+      font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--cream);
+      background: linear-gradient(135deg, #833AB4, #C13584, #E1306C, #FD1D1D, #F77737);
+      padding: 12px 24px; border-radius: 2px;
+      transition: opacity .25s;
+    }
+    .ig-link:hover { opacity: .88; }
+    .ig-link svg { width: 16px; height: 16px; fill: white; }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      background: var(--black);
+      padding: 40px clamp(24px, 6vw, 80px);
+      display: flex; flex-wrap: wrap;
+      align-items: center; justify-content: space-between;
+      gap: 20px;
+      border-top: 2px solid var(--crimson);
+    }
+    .footer-name {
+      font-size: 20px; font-weight: 900;
+      color: var(--cream);
+    }
+    .footer-copy {
+      font-size: 13px; color: rgba(245,239,230,.35);
+      font-style: italic;
+    }
+    .footer-links {
+      display: flex; gap: 24px;
+    }
+    .footer-links a {
+      font-family: var(--ff-caps);
+      font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
+      color: rgba(245,239,230,.4);
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--crimson-lt); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img-float { display: none; }
+      .about-img-main { aspect-ratio: 16/9; }
+      .info-grid { grid-template-columns: 1fr; }
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+      }
+      .gal-1,.gal-2,.gal-3,.gal-4,.gal-5,.gal-6,.gal-7 {
+        grid-column: span 1; grid-row: span 1; aspect-ratio: 4/3;
+      }
+    }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .hero-title { font-size: clamp(42px, 14vw, 72px); }
+      .menu-panel.active { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gal-1,.gal-2,.gal-3,.gal-4,.gal-5,.gal-6,.gal-7 { aspect-ratio: 4/3; }
+    }
+
+    /* ─── FADE IN ON SCROLL ──────────────────────────────────── */
+    .fade-up {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+    .fade-up.delay-1 { transition-delay: .1s; }
+    .fade-up.delay-2 { transition-delay: .2s; }
+    .fade-up.delay-3 { transition-delay: .3s; }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ─────────────────────────────────────────────────── -->
+  <nav id="nav">
+    <a href="#hero" class="nav-logo">TIMBUKTU<span class="cafe-sub">Café</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">Our Story</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#info">Visit Us</a></li>
+      <li><a href="#info" class="nav-cta">Reserve a Table</a></li>
+    </ul>
+    <div class="nav-burger" onclick="openMobile()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav-mobile" id="mobileMenu">
+    <button class="nav-mobile-close" onclick="closeMobile()">✕</button>
+    <a href="#about" onclick="closeMobile()">Our Story</a>
+    <a href="#menu" onclick="closeMobile()">Menu</a>
+    <a href="#gallery" onclick="closeMobile()">Gallery</a>
+    <a href="#info" onclick="closeMobile()">Visit Us</a>
+  </div>
+
+  <!-- ── HERO ────────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Observatory · Cape Town</p>
+      <h1 class="hero-title">
+        TIMBUKTU<em>CAFÉ</em>
+      </h1>
+      <p class="hero-sub">Authentic Ethiopian flavours. A home filled with stories. A table waiting for you.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn-primary">Explore the Menu</a>
+        <a href="#info" class="btn-outline">Find Us</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ── MARQUEE ──────────────────────────────────────────────── -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>Ethiopian Cuisine</span><span class="dot">✦</span>
+      <span>Injera &amp; Wot</span><span class="dot">✦</span>
+      <span>Coffee Ceremony</span><span class="dot">✦</span>
+      <span>Live Jazz &amp; Blues</span><span class="dot">✦</span>
+      <span>Observatory, Cape Town</span><span class="dot">✦</span>
+      <span>Art &amp; Antiques</span><span class="dot">✦</span>
+      <span>Vegetarian Friendly</span><span class="dot">✦</span>
+      <span>Ethiopian Cuisine</span><span class="dot">✦</span>
+      <span>Injera &amp; Wot</span><span class="dot">✦</span>
+      <span>Coffee Ceremony</span><span class="dot">✦</span>
+      <span>Live Jazz &amp; Blues</span><span class="dot">✦</span>
+      <span>Observatory, Cape Town</span><span class="dot">✦</span>
+      <span>Art &amp; Antiques</span><span class="dot">✦</span>
+      <span>Vegetarian Friendly</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- ── ABOUT ────────────────────────────────────────────────── -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-images fade-up">
+          <img class="about-img-main" src="/mnt/user-data/uploads/AtmospherePicture1.jpg" alt="Timbuktu Café interior" loading="lazy" />
+          <img class="about-img-float" src="/mnt/user-data/uploads/AtmospherePicture2.jpg" alt="Timbuktu Café detail" loading="lazy" />
+        </div>
+        <div class="about-text">
+          <p class="section-label">Our Story</p>
+          <h2 class="section-title fade-up">A World Away,<br/>Right Here in Obs.</h2>
+          <div class="about-divider"></div>
+          <p class="about-body fade-up delay-1">
+            This <strong>Ethiopian restaurant</strong> serves traditional cuisine in a quirky, object-filled house atmosphere. The small establishment specialises in <strong>vegetable dishes</strong> — or rich combinations of vegetables and meat including lamb and chicken — all served on <em>injera</em>, the soft spongy Ethiopian bread that functions as both plate and utensil.
+          </p>
+          <p class="about-body fade-up delay-2">
+            Relocated from Long Street to its current <strong>Observatory home</strong> — a building that once housed a pub — the interior is stuffed with vintage African masks, sculptures, and curios, many available for purchase. Classic <strong>jazz and blues</strong> from Big Mama Thornton and Louis Armstrong fills the air during meals.
+          </p>
+          <p class="about-body fade-up delay-3">
+            The café holds only a few tables, each with a distinct character, making for an <strong>intimate dining experience</strong>. Outside, cozy chairs on a terrace invite you to linger longer. A traditional <strong>Ethiopian coffee ceremony</strong> is always available.
+          </p>
+          <div class="about-badges fade-up">
+            <span class="badge">Injera-served dishes</span>
+            <span class="badge">Coffee Ceremony</span>
+            <span class="badge">Vegetarian Friendly</span>
+            <span class="badge">Art for Sale</span>
+            <span class="badge">Jazz &amp; Blues</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MENU ─────────────────────────────────────────────────── -->
+  <section id="menu">
+    <div class="section-inner">
+      <p class="section-label">What We Serve</p>
+      <h2 class="section-title light fade-up">The Menu</h2>
+      <p class="menu-intro fade-up">All dishes served on traditional Ethiopian injera. Gluten-free couscous available as an alternative.</p>
+
+      <div class="menu-tabs fade-up">
+        <button class="tab-btn active" data-tab="breakfast">Breakfast</button>
+        <button class="tab-btn" data-tab="ethiopian-breakfast">Ethiopian Breakfast</button>
+        <button class="tab-btn" data-tab="meat">Meat Dishes</button>
+        <button class="tab-btn" data-tab="lamb">Lamb Dishes</button>
+        <button class="tab-btn" data-tab="chicken">Chicken Dishes</button>
+        <button class="tab-btn" data-tab="veggie">Veggie Dishes</button>
+        <button class="tab-btn" data-tab="platters">Platters</button>
+        <button class="tab-btn" data-tab="lite">Lite Meals</button>
+        <button class="tab-btn" data-tab="dessert">Desserts</button>
+        <button class="tab-btn" data-tab="hot">Hot Drinks</button>
+        <button class="tab-btn" data-tab="teas">Teas</button>
+        <button class="tab-btn" data-tab="cold">Cold Drinks</button>
+      </div>
+
+      <!-- BREAKFAST -->
+      <div class="menu-panel active" id="tab-breakfast">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Scones × 2</span><span class="menu-item-price">R25</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Scone × 1</span><span class="menu-item-price">R15</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Eggs Benedict</span><span class="menu-item-price">R85</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Farm House</span><span class="menu-item-price">R85</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">French Toast</span><span class="menu-item-price">R65</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Omelette</span><span class="menu-item-price">R65</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Croissant — Plain Butter</span><span class="menu-item-price">R30</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Croissant — Chocolate</span><span class="menu-item-price">R35</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Croissant — Hazelnut Vegan</span><span class="menu-item-price">R38</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Croissant — Plain Vegan</span><span class="menu-item-price">R30</span></div></div>
+      </div>
+
+      <!-- ETHIOPIAN BREAKFAST -->
+      <div class="menu-panel" id="tab-ethiopian-breakfast">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Shiro Omelette</span><span class="menu-item-price">R60</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Scrambled Eggs</span><span class="menu-item-price">R60</span></div><p class="menu-item-desc">Berbere or green chilli</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Chechebsa</span><span class="menu-item-price">R60</span></div><p class="menu-item-desc">Traditional Ethiopian breakfast flatbread</p></div>
+      </div>
+
+      <!-- MEAT DISHES -->
+      <div class="menu-panel" id="tab-meat">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Key Wot</span><span class="menu-item-price">R158</span></div><p class="menu-item-desc">Beef stew slow cooked with red onion and Ethiopian berbere sauce, served with salad on injera</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Alicha Wot</span><span class="menu-item-price">R137</span></div><p class="menu-item-desc">Mild beef stew with turmeric and exotic spices, served with salad on injera</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Misto</span><span class="menu-item-price">R160</span></div><p class="menu-item-desc">Portion of Key Wot and Alicha Wot served together</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Misto with Couscous</span><span class="menu-item-price">R175</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Tibs</span><span class="menu-item-price">R156</span></div><p class="menu-item-desc">Chopped lean beef grilled with berbere, onion, green pepper, fresh tomato and rosemary</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Tibs with Veggies</span><span class="menu-item-price">R190</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Tibs with Spinach &amp; Couscous</span><span class="menu-item-price">R143</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Gored Gored with Veggies</span><span class="menu-item-price">R156</span></div><p class="menu-item-desc">Lean beef goulash in spiced butter, dewberi — with cottage cheese, mitmita sauce and salad on injera</p></div>
+      </div>
+
+      <!-- LAMB -->
+      <div class="menu-panel" id="tab-lamb">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Lamb Tibs</span><span class="menu-item-price">R169</span></div><p class="menu-item-desc">Boneless lamb topped with berbere pepper, fresh tomato and rosemary</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Lamb Tibs with Veggies</span><span class="menu-item-price">R195</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Lamb Tibs with Spinach &amp; Couscous</span><span class="menu-item-price">R221</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Lamb Key Wot</span><span class="menu-item-price">R258</span></div><p class="menu-item-desc">Lamb stew in berbere sauce, spices and Ethiopian butter, served with salad on injera</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Lamb Alicha Wot</span><span class="menu-item-price">R253</span></div><p class="menu-item-desc">Mild slow-cooked boneless lamb with turmeric and exotic spices, served with salad on injera</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Lamb Misto</span><span class="menu-item-price">R260</span></div><p class="menu-item-desc">Portions of Lamb Key Wot and Lamb Alicha Wot served together</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Lamb Misto with Couscous</span><span class="menu-item-price">R270</span></div></div>
+      </div>
+
+      <!-- CHICKEN -->
+      <div class="menu-panel" id="tab-chicken">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Doro Wot</span><span class="menu-item-price">R166</span></div><p class="menu-item-desc">Chicken slowly simmered in Ethiopian berbere sauce and authentic spices, served with hard-boiled egg</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Doro with Couscous</span><span class="menu-item-price">R155</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Mota Doro</span><span class="menu-item-price">R130</span></div><p class="menu-item-desc">Chicken fillet in spicy cottage cheese and spiced butter, served with cottage cheese and salad on injera</p></div>
+      </div>
+
+      <!-- VEGGIE -->
+      <div class="menu-panel" id="tab-veggie">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Arkilt</span><span class="menu-item-price">R90</span></div><p class="menu-item-desc">Curried vegetable stew with carrots, potatoes, cabbage and onions</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Gomen</span><span class="menu-item-price">R90</span></div><p class="menu-item-desc">Spinach cooked with garlic in the Ethiopian way</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Kik Alicha Wot</span><span class="menu-item-price">R91</span></div><p class="menu-item-desc">Split peas cooked in curry and aromatic spices</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Misir Key Wot</span><span class="menu-item-price">R95</span></div><p class="menu-item-desc">Lentils cooked in Ethiopian berbere sauce</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Shire Wot</span><span class="menu-item-price">R110</span></div><p class="menu-item-desc">Spiced chickpea flour cooked in berbere sauce</p></div>
+      </div>
+
+      <!-- PLATTERS -->
+      <div class="menu-panel" id="tab-platters">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Meat Platter (Beef Only)</span><span class="menu-item-price">R475</span></div><p class="menu-item-desc">Portions of all our beef dishes</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Meat Platter (Beef &amp; Lamb)</span><span class="menu-item-price">R580</span></div><p class="menu-item-desc">Portions of all our beef and lamb dishes</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Sergenya</span><span class="menu-item-price">R700</span></div><p class="menu-item-desc">Traditional Ethiopian festive platter — portions of all our cuisine except lamb</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Sergenya with Lamb</span><span class="menu-item-price">R865</span></div><p class="menu-item-desc">All dishes including our delicious lamb — the full feast</p></div>
+      </div>
+
+      <!-- LITE MEALS -->
+      <div class="menu-panel" id="tab-lite">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Falafel Bowl</span><span class="menu-item-price">R60</span></div><p class="menu-item-desc">Small, standard</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Chicken Toast</span><span class="menu-item-price">R65</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Beef Toast</span><span class="menu-item-price">R65</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Brinjal Toast</span><span class="menu-item-price">R65</span></div></div>
+      </div>
+
+      <!-- DESSERTS -->
+      <div class="menu-panel" id="tab-dessert">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Ice Cream</span><span class="menu-item-price">R55</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Ice Cream with Chocolate Sauce</span><span class="menu-item-price">R70</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Chocolate Cake</span><span class="menu-item-price">R50</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Carrot Cake</span><span class="menu-item-price">R70</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Chocolate Cake with Ice Cream</span><span class="menu-item-price">R75</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Dom Pedro</span><span class="menu-item-price">R75</span></div></div>
+      </div>
+
+      <!-- HOT DRINKS -->
+      <div class="menu-panel" id="tab-hot">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Ethiopian Pot Coffee</span><span class="menu-item-price">R40</span></div><p class="menu-item-desc">Traditional ceremony-style</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Americano</span><span class="menu-item-price">R26</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Cappuccino</span><span class="menu-item-price">R30</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Café Latte</span><span class="menu-item-price">R35</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Iced Coffee</span><span class="menu-item-price">R30</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Espresso</span><span class="menu-item-price">R25</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Double Espresso</span><span class="menu-item-price">R28</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Decaf</span><span class="menu-item-price">R28</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Hot Chocolate</span><span class="menu-item-price">R39</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Chai Tea</span><span class="menu-item-price">R35</span></div></div>
+      </div>
+
+      <!-- TEAS -->
+      <div class="menu-panel" id="tab-teas">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">All Spices Tea</span><span class="menu-item-price">R35</span></div><p class="menu-item-desc">A combination of special Madam Taitou tea spices</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Spice Tea</span><span class="menu-item-price">R30</span></div><p class="menu-item-desc">Ginger or cinnamon</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Organic Herbal Tea</span><span class="menu-item-price">R25</span></div><p class="menu-item-desc">Thyme with rooibos</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Rooibos or Five Roses</span><span class="menu-item-price">R25</span></div></div>
+      </div>
+
+      <!-- COLD DRINKS -->
+      <div class="menu-panel" id="tab-cold">
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Soft Drinks</span><span class="menu-item-price">R24</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Ginger Beer</span><span class="menu-item-price">R25</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Appletiser / Grapetiser</span><span class="menu-item-price">R30</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Ice Tea</span><span class="menu-item-price">R40</span></div><p class="menu-item-desc">Peach or lemon</p></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Still / Sparkling Water 500ml</span><span class="menu-item-price">R20</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Still / Sparkling Water 1.5L</span><span class="menu-item-price">R42</span></div></div>
+        <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Fresh Squeezed Juice</span><span class="menu-item-price">R40</span></div></div>
+      </div>
+
+      <p class="menu-note">Prices include VAT. Menu subject to seasonal changes.</p>
+    </div>
+  </section>
+
+  <!-- ── GALLERY ──────────────────────────────────────────────── -->
+  <section id="gallery">
+    <div class="section-inner">
+      <p class="section-label">Inside &amp; Out</p>
+      <h2 class="section-title fade-up">A Feast for the Eyes</h2>
+      <div class="gallery-grid">
+        <div class="gal-item gal-1 fade-up"><img src="/mnt/user-data/uploads/Food_Picture3.jpg" alt="Ethiopian platter" loading="lazy" /></div>
+        <div class="gal-item gal-2 fade-up delay-1"><img src="/mnt/user-data/uploads/AtmospherePicture1.jpg" alt="Interior detail" loading="lazy" /></div>
+        <div class="gal-item gal-3 fade-up delay-2"><img src="/mnt/user-data/uploads/AtmospherePicture2.jpg" alt="Lamp detail" loading="lazy" /></div>
+        <div class="gal-item gal-4 fade-up delay-1"><img src="/mnt/user-data/uploads/Food_Picture4.jpg" alt="Ethiopian feast" loading="lazy" /></div>
+        <div class="gal-item gal-5 fade-up delay-3"><img src="/mnt/user-data/uploads/AtmospherePicture3.webp" alt="Timbuktu interior" loading="lazy" /></div>
+        <div class="gal-item gal-6 fade-up delay-2"><img src="/mnt/user-data/uploads/Food_Picture1.jpg" alt="Ethiopian food" loading="lazy" /></div>
+        <div class="gal-item gal-7 fade-up delay-1"><img src="/mnt/user-data/uploads/Food_Picture2.jpg" alt="Platter and injera" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOURS + CONTACT ──────────────────────────────────────── -->
+  <section id="info">
+    <div class="section-inner">
+      <p class="section-label">Come Find Us</p>
+      <h2 class="section-title fade-up" style="margin-bottom:48px;">Hours &amp; Contact</h2>
+      <div class="info-grid">
+
+        <!-- HOURS -->
+        <div class="info-card fade-up">
+          <h3 class="info-card-title">Opening Hours</h3>
+          <div class="hours-row" id="day-mon"><span class="hours-day">Monday</span><span class="hours-time">11:00 – 22:00</span></div>
+          <div class="hours-row" id="day-tue"><span class="hours-day">Tuesday</span><span class="hours-time">11:00 – 22:00</span></div>
+          <div class="hours-row" id="day-wed"><span class="hours-day">Wednesday</span><span class="hours-time">11:00 – 22:00</span></div>
+          <div class="hours-row" id="day-thu"><span class="hours-day">Thursday</span><span class="hours-time">11:00 – 22:00</span></div>
+          <div class="hours-row" id="day-fri"><span class="hours-day">Friday</span><span class="hours-time">11:00 – 22:00</span></div>
+          <div class="hours-row" id="day-sat"><span class="hours-day">Saturday</span><span class="hours-time">11:00 – 22:00</span></div>
+          <div class="hours-row" id="day-sun"><span class="hours-day">Sunday</span><span class="hours-time">11:00 – 22:00</span></div>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="info-card fade-up delay-2">
+          <h3 class="info-card-title">Get in Touch</h3>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+            </div>
+            <div>
+              <p class="contact-label">Phone</p>
+              <p class="contact-value"><a href="tel:0722836739">072 283 6739</a></p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            </div>
+            <div>
+              <p class="contact-label">Address</p>
+              <p class="contact-value">16 Lower Main Rd<br/>Observatory, Cape Town, 8001</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </div>
+            <div>
+              <p class="contact-label">Instagram</p>
+              <p class="contact-value"><a href="https://www.instagram.com/explore/locations/821019523/timbuktu-cafe-observatory-cape-town/" target="_blank" rel="noopener">@timbuktu.cafe</a></p>
+            </div>
+          </div>
+
+          <a class="ig-link" href="https://www.instagram.com/explore/locations/821019523/timbuktu-cafe-observatory-cape-town/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            Follow Us on Instagram
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ───────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-name" style="font-family:'Alfa Slab One',serif;letter-spacing:.02em;text-shadow:2px 2px 0 var(--crimson-dk);-webkit-text-stroke:1px var(--crimson);">TIMBUKTU <span style="-webkit-text-stroke:0;text-shadow:none;color:var(--crimson);font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:.2em;font-weight:400;">CAFÉ</span></div>
+    <p class="footer-copy">16 Lower Main Rd, Observatory, Cape Town &nbsp;·&nbsp; Open daily 11am – 10pm</p>
+    <nav class="footer-links">
+      <a href="#about">Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#info">Visit</a>
+    </nav>
+  </footer>
+
+  <!-- ── JS ──────────────────────────────────────────────────── -->
+  <script>
+    // Sticky nav
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Mobile nav
+    function openMobile() { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow=''; }
+
+    // Menu tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Highlight today in hours
+    const days = ['sun','mon','tue','wed','thu','fri','sat'];
+    const today = days[new Date().getDay()];
+    const todayRow = document.getElementById('day-' + today);
+    if (todayRow) todayRow.classList.add('today');
+
+    // Fade-up on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
