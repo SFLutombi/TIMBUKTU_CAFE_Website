@@ -156,25 +156,46 @@
       display: flex; align-items: flex-end;
       overflow: hidden;
     }
-    .hero-bg {
+    .hero-media {
       position: absolute; inset: 0;
-      background-color: #2A1320;
-      background-image: url('Heroshot.png');
-      background-position: center 32%;
-      background-size: cover;
-      background-repeat: no-repeat;
-      transform: none;
-      animation: none;
+      background: radial-gradient(circle at 50% 30%, rgba(203,37,75,.2), rgba(34,14,24,.95));
+      z-index: 0;
+      overflow: hidden;
     }
     .hero-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(
         to top,
         rgba(34,10,18,.88) 0%,
-        rgba(62,20,34,.54) 42%,
-        rgba(0,0,0,.24) 100%
+        rgba(34,10,18,.56) 32%,
+        rgba(34,10,18,.28) 65%,
+        rgba(34,10,18,.55) 100%
       );
+      z-index: 1;
     }
+    .hero-card {
+      position: absolute;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid rgba(255,245,248,.35);
+      box-shadow: 0 16px 35px rgba(0,0,0,.35);
+      background: rgba(34,10,18,.75);
+    }
+    .hero-card img { width: 100%; height: auto; display: block; }
+    .hero-main {
+      width: clamp(280px, 36vw, 520px);
+      left: 50%; top: 50%; transform: translate(-50%, -52%);
+      border-color: rgba(255,245,248,.65);
+      box-shadow: 0 20px 48px rgba(0,0,0,.5);
+      z-index: 1;
+    }
+    .hero-shot-1 { width: clamp(160px, 16vw, 260px); left: 7%; top: 16%; transform: rotate(-5deg); }
+    .hero-shot-2 { width: clamp(160px, 17vw, 270px); right: 8%; top: 12%; transform: rotate(4deg); }
+    .hero-shot-3 { width: clamp(150px, 15vw, 240px); left: 12%; bottom: 16%; transform: rotate(3deg); }
+    .hero-shot-4 { width: clamp(145px, 14vw, 230px); right: 12%; bottom: 18%; transform: rotate(-4deg); }
+    .hero-shot-5 { width: clamp(130px, 12vw, 210px); left: 30%; top: 8%; transform: rotate(-3deg); }
+    .hero-shot-6 { width: clamp(130px, 12vw, 210px); right: 30%; bottom: 8%; transform: rotate(2deg); }
+    .hero-shot-7 { width: clamp(120px, 11vw, 190px); right: 24%; top: 30%; transform: rotate(-2deg); }
     .hero-content {
       position: relative; z-index: 2;
       padding: clamp(40px, 8vw, 80px) clamp(24px, 6vw, 80px);
@@ -536,6 +557,9 @@
 
     /* ─── RESPONSIVE ─────────────────────────────────────────── */
     @media (max-width: 900px) {
+      .hero-shot-5, .hero-shot-6, .hero-shot-7 { display: none; }
+      .hero-main { width: clamp(260px, 56vw, 420px); }
+      .hero-shot-1, .hero-shot-2, .hero-shot-3, .hero-shot-4 { width: clamp(130px, 24vw, 220px); }
       .about-grid { grid-template-columns: 1fr; }
       .about-img-float { display: none; }
       .about-img-main { aspect-ratio: 16/9; }
@@ -549,6 +573,10 @@
       }
     }
     @media (max-width: 700px) {
+      .hero-shot-3, .hero-shot-4 { display: none; }
+      .hero-main { width: min(72vw, 360px); top: 48%; }
+      .hero-shot-1 { left: 4%; top: 14%; }
+      .hero-shot-2 { right: 4%; top: 18%; }
       .nav-links { display: none; }
       .nav-burger { display: flex; }
       .hero-title { font-size: clamp(42px, 14vw, 72px); }
@@ -599,7 +627,16 @@
 
   <!-- ── HERO ────────────────────────────────────────────────── -->
   <section id="hero">
-    <div class="hero-bg"></div>
+    <div class="hero-media">
+      <figure class="hero-card hero-main"><img src="Heroshot.png" alt="Timbuktu Café centerpiece" /></figure>
+      <figure class="hero-card hero-shot-1"><img src="Heroshot.png" alt="Timbuktu Café hero detail" /></figure>
+      <figure class="hero-card hero-shot-2"><img src="Heroshot.png" alt="Timbuktu Café atmosphere" /></figure>
+      <figure class="hero-card hero-shot-3"><img src="Heroshot.png" alt="Timbuktu Café vintage detail" /></figure>
+      <figure class="hero-card hero-shot-4"><img src="Heroshot.png" alt="Timbuktu Café interior" /></figure>
+      <figure class="hero-card hero-shot-5"><img src="Heroshot.png" alt="Timbuktu Café cuisine" /></figure>
+      <figure class="hero-card hero-shot-6"><img src="Heroshot.png" alt="Timbuktu Café platter" /></figure>
+      <figure class="hero-card hero-shot-7"><img src="Heroshot.png" alt="Timbuktu Café dish close-up" /></figure>
+    </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <p class="hero-eyebrow">Observatory · Cape Town</p>
