@@ -158,50 +158,46 @@
     }
     .hero-media {
       position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(203,37,75,.2), rgba(34,14,24,.95));
       z-index: 0;
       overflow: hidden;
+      background: radial-gradient(circle at 50% 34%, rgba(203,37,75,.24), rgba(34,14,24,.96));
     }
     .hero-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(
         to top,
-        rgba(34,10,18,.88) 0%,
-        rgba(34,10,18,.56) 32%,
-        rgba(34,10,18,.28) 65%,
-        rgba(34,10,18,.55) 100%
+        rgba(34,10,18,.84) 0%,
+        rgba(34,10,18,.52) 30%,
+        rgba(34,10,18,.18) 62%,
+        rgba(34,10,18,.58) 100%
       );
       z-index: 1;
     }
     .hero-card {
       position: absolute;
-      border-radius: 8px;
+      border-radius: 14px;
       overflow: hidden;
-      border: 2px solid rgba(255,245,248,.35);
-      box-shadow: 0 16px 35px rgba(0,0,0,.35);
-      background: rgba(34,10,18,.75);
+      border: 1px solid rgba(255,245,248,.34);
+      box-shadow: 0 14px 28px rgba(0,0,0,.35);
+      background: rgba(34,10,18,.72);
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
     }
-    .hero-card img { width: 100%; height: auto; display: block; }
-    .hero-main {
-      width: clamp(280px, 36vw, 520px);
-      left: 50%; top: 50%; transform: translate(-50%, -52%);
-      border-color: rgba(255,245,248,.65);
-      box-shadow: 0 20px 48px rgba(0,0,0,.5);
-      z-index: 1;
-    }
-    .hero-shot-1 { width: clamp(132px, 12vw, 195px); left: 25%; top: 18%; transform: rotate(-4deg); }
-    .hero-shot-2 { width: clamp(132px, 12vw, 195px); right: 25%; top: 18%; transform: rotate(4deg); }
-    .hero-shot-3 { width: clamp(128px, 11vw, 185px); left: 24%; top: 46%; transform: rotate(3deg); }
-    .hero-shot-4 { width: clamp(128px, 11vw, 185px); right: 24%; top: 46%; transform: rotate(-3deg); }
-    .hero-shot-5 { width: clamp(118px, 10vw, 170px); left: 34%; top: 14%; transform: rotate(-2deg); }
-    .hero-shot-6 { width: clamp(118px, 10vw, 170px); right: 34%; top: 60%; transform: rotate(2deg); }
-    .hero-shot-7 { width: clamp(110px, 9vw, 160px); right: 37%; top: 34%; transform: rotate(-2deg); }
-    .hero-shot-8 { width: clamp(106px, 8.5vw, 155px); left: 37%; top: 56%; transform: rotate(2deg); }
-    .hero-shot-9 { width: clamp(106px, 8.5vw, 155px); right: 37%; top: 26%; transform: rotate(-2deg); }
-    .hero-shot-10 { width: clamp(98px, 7.8vw, 145px); left: 43%; top: 20%; transform: rotate(1deg); }
-    .hero-shot-11 { width: clamp(98px, 7.8vw, 145px); right: 43%; top: 54%; transform: rotate(-1deg); }
-    .hero-shot-12 { width: clamp(94px, 7.2vw, 135px); left: 46%; top: 66%; transform: rotate(1deg); }
-    .hero-shot { width: clamp(102px, 8.2vw, 150px); left: 46%; top: 38%; transform: rotate(-1deg); }
+    .hero-card:hover { transform: translateY(-8px) scale(1.03) rotate(var(--tilt, 0deg)); box-shadow: 0 22px 38px rgba(0,0,0,.48); border-color: rgba(255,245,248,.68); z-index: 3; }
+    .hero-card img { width: auto; height: auto; max-width: 100%; display: block; filter: saturate(1.05) contrast(1.05); transition: filter .28s ease; }
+    .hero-card:hover img { filter: saturate(1.14) contrast(1.1) brightness(1.04); }
+    .hero-shot-1  { max-width: clamp(220px, 17vw, 300px); left: 6%;  top: 12%; --tilt: -4deg; transform: rotate(var(--tilt)); }
+    .hero-shot-2  { max-width: clamp(280px, 23vw, 410px); left: 24%; top: 4%;  --tilt: 2deg;  transform: rotate(var(--tilt)); }
+    .hero-shot-3  { max-width: clamp(170px, 14vw, 240px); left: 58%; top: 8%; --tilt: -3deg; transform: rotate(var(--tilt)); }
+    .hero-shot-4  { max-width: clamp(165px, 13vw, 220px); right: 5%; top: 20%; --tilt: 3deg;  transform: rotate(var(--tilt)); }
+    .hero-shot-5  { max-width: clamp(160px, 13vw, 215px); left: 10%; top: 52%; --tilt: 2deg;  transform: rotate(var(--tilt)); }
+    .hero-shot-6  { max-width: clamp(220px, 18vw, 310px); left: 34%; top: 56%; --tilt: -2deg; transform: rotate(var(--tilt)); }
+    .hero-shot-7  { max-width: clamp(155px, 12vw, 210px); left: 56%; top: 50%; --tilt: 2.5deg; transform: rotate(var(--tilt)); }
+    .hero-shot-8  { max-width: clamp(160px, 12vw, 210px); right: 8%; top: 50%; --tilt: -2deg; transform: rotate(var(--tilt)); }
+    .hero-shot-9  { max-width: clamp(165px, 13vw, 225px); right: 25%; top: 28%; --tilt: 1.5deg; transform: rotate(var(--tilt)); }
+    .hero-shot-10 { max-width: clamp(145px, 11vw, 195px); left: 47%; top: 34%; --tilt: -1.5deg; transform: rotate(var(--tilt)); }
+    .hero-shot-11 { max-width: clamp(145px, 11vw, 190px); right: 34%; top: 66%; --tilt: 1deg; transform: rotate(var(--tilt)); }
+    .hero-shot-12 { max-width: clamp(138px, 10vw, 180px); left: 4%;  top: 71%; --tilt: -1deg; transform: rotate(var(--tilt)); }
+    .hero-shot    { max-width: clamp(138px, 10vw, 180px); right: 4%; top: 72%; --tilt: 1deg; transform: rotate(var(--tilt)); }
     .hero-content {
       position: relative; z-index: 2;
       padding: clamp(40px, 8vw, 80px) clamp(24px, 6vw, 80px);
@@ -563,11 +559,13 @@
 
     /* ─── RESPONSIVE ─────────────────────────────────────────── */
     @media (max-width: 900px) {
-      .hero-shot-5, .hero-shot-6, .hero-shot-7, .hero-shot-8, .hero-shot-9, .hero-shot-10, .hero-shot-11, .hero-shot-12, .hero-shot { display: none; }
-      .hero-main { width: clamp(260px, 56vw, 420px); }
-      .hero-shot-1, .hero-shot-2, .hero-shot-3, .hero-shot-4 { width: clamp(122px, 20vw, 190px); }
-      .hero-shot-1 { left: 16%; }
-      .hero-shot-2 { right: 16%; }
+      .hero-shot-7, .hero-shot-8, .hero-shot-9, .hero-shot-10, .hero-shot-11, .hero-shot-12, .hero-shot { display: none; }
+      .hero-shot-1 { left: 7%; top: 16%; }
+      .hero-shot-2 { left: 30%; top: 9%; }
+      .hero-shot-3 { left: 61%; top: 14%; }
+      .hero-shot-4 { right: 6%; top: 24%; }
+      .hero-shot-5 { left: 14%; top: 60%; }
+      .hero-shot-6 { left: 44%; top: 60%; }
       .about-grid { grid-template-columns: 1fr; }
       .about-img-float { display: none; }
       .about-img-main { aspect-ratio: 16/9; }
@@ -581,10 +579,9 @@
       }
     }
     @media (max-width: 700px) {
-      .hero-shot-3, .hero-shot-4, .hero-shot-8, .hero-shot-9, .hero-shot-10, .hero-shot-11, .hero-shot-12, .hero-shot { display: none; }
-      .hero-main { width: min(72vw, 360px); top: 48%; }
-      .hero-shot-1 { left: 7%; top: 16%; }
-      .hero-shot-2 { right: 7%; top: 18%; }
+      .hero-shot-3, .hero-shot-4, .hero-shot-5, .hero-shot-6, .hero-shot-7, .hero-shot-8, .hero-shot-9, .hero-shot-10, .hero-shot-11, .hero-shot-12, .hero-shot { display: none; }
+      .hero-shot-1 { left: 7%; top: 22%; max-width: min(42vw, 230px); }
+      .hero-shot-2 { right: 7%; left: auto; top: 30%; max-width: min(48vw, 260px); }
       .nav-links { display: none; }
       .nav-burger { display: flex; }
       .hero-title { font-size: clamp(42px, 14vw, 72px); }
@@ -636,7 +633,6 @@
   <!-- ── HERO ────────────────────────────────────────────────── -->
   <section id="hero">
     <div class="hero-media">
-      <figure class="hero-card hero-main"><img src="Heroshotmain.jpeg" alt="Timbuktu Café centerpiece" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
       <figure class="hero-card hero-shot-1"><img src="Heroshot1.jpeg" alt="Timbuktu Café hero detail" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
       <figure class="hero-card hero-shot-2"><img src="Heroshot2.jpeg" alt="Timbuktu Café atmosphere" onerror="this.onerror=null;this.src='Heroshot2.jpg';" /></figure>
       <figure class="hero-card hero-shot-3"><img src="Heroshot3.jpeg" alt="Timbuktu Café vintage detail" onerror="this.onerror=null;this.src='Heroshot3.jpg';" /></figure>
@@ -644,12 +640,12 @@
       <figure class="hero-card hero-shot-5"><img src="Heroshot5.jpeg" alt="Timbuktu Café cuisine" onerror="this.onerror=null;this.src='Heroshot5.jpg';" /></figure>
       <figure class="hero-card hero-shot-6"><img src="Heroshot6.jpeg" alt="Timbuktu Café platter" onerror="this.onerror=null;this.src='Heroshot6.jpg';" /></figure>
       <figure class="hero-card hero-shot-7"><img src="Heroshot7.jpeg" alt="Timbuktu Café dish close-up" onerror="this.onerror=null;this.src='Heroshot7.jpg';" /></figure>
-      <figure class="hero-card hero-shot-8"><img src="Heroshot8.jpg" alt="Timbuktu Café decor detail" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
+      <figure class="hero-card hero-shot-8"><img src="Heroshot8.jpeg" alt="Timbuktu Café decor detail" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
       <figure class="hero-card hero-shot-9"><img src="Heroshot9.jpeg" alt="Timbuktu Café table scene" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
-      <figure class="hero-card hero-shot-10"><img src="Heroshot10.jpg" alt="Timbuktu Café ambience" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
-      <figure class="hero-card hero-shot-11"><img src="Heroshot11.jpg" alt="Timbuktu Café close-up" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
-      <figure class="hero-card hero-shot-12"><img src="Heroshot12.jpg" alt="Timbuktu Café mood shot" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
-      <figure class="hero-card hero-shot"><img src="Heroshot.png" alt="Timbuktu Café dish close-up" onerror="this.onerror=null;this.src='Heroshot7.jpg';" /></figure>
+      <figure class="hero-card hero-shot-10"><img src="Heroshot10.jpeg" alt="Timbuktu Café ambience" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
+      <figure class="hero-card hero-shot-11"><img src="Heroshot11.jpeg" alt="Timbuktu Café close-up" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
+      <figure class="hero-card hero-shot-12"><img src="Heroshot12.jpeg" alt="Timbuktu Café mood shot" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
+      <figure class="hero-card hero-shot"><img src="Heroshot7.jpeg" alt="Timbuktu Café dish close-up" onerror="this.onerror=null;this.src='Heroshot7.jpg';" /></figure>
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
