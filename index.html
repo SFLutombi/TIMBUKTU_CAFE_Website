@@ -40,7 +40,7 @@
       --ff-body:    'Cormorant Garamond', serif;
       --ff-caps:    'Oswald', sans-serif;
 
-      --nav-h: 72px;
+      --nav-h: 90px;
       --section-pad: clamp(60px, 10vw, 120px);
     }
 
@@ -81,29 +81,45 @@
       box-shadow: 0 2px 0 rgba(203,37,75,.45);
     }
     .nav-logo {
-      font-family: var(--ff-logo);
-      font-size: clamp(20px, 2.8vw, 28px);
-      font-weight: 400;
-      color: var(--cream);
-      letter-spacing: .02em;
+      display: inline-flex;
+      align-items: center;
       line-height: 1;
-      text-transform: uppercase;
-      /* Mimic the outlined/shadow style of the signage */
-      -webkit-text-stroke: 1.5px var(--crimson);
-      paint-order: stroke fill;
-      text-shadow: 2px 2px 0 var(--crimson-dk);
     }
-    .nav-logo .cafe-sub {
+    .nav-logo-lockup{
+      position: relative;
+      display: inline-block;
+    }
+    .nav-logo-img{
+      height: 72px;
+      width: auto;
       display: block;
+      filter: drop-shadow(2px 2px 0 rgba(143,21,49,.9));
+    }
+    .nav-logo-sub{
       font-family: var(--ff-caps);
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: .28em;
       text-transform: uppercase;
       color: var(--crimson);
-      -webkit-text-stroke: 0;
-      text-shadow: none;
-      margin-top: 1px;
-      font-weight: 400;
+      position: absolute;
+      left: 50%;
+      bottom: 3px;
+      transform: translateX(-50%);
+      padding: 2px 6px;
+      background: rgba(34,14,24,.35);
+      border: 1px solid rgba(203,37,75,.35);
+      border-radius: 2px;
+      backdrop-filter: blur(8px);
+    }
+    /* Accessibility helper (keeps text for screen readers) */
+    .sr-only{
+      position:absolute;
+      width:1px; height:1px;
+      padding:0; margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
     }
     .nav-links {
       display: flex; gap: clamp(20px, 3vw, 40px); align-items: center;
@@ -194,25 +210,62 @@
     .hero-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 16px 30px rgba(0,0,0,.42); border-color: rgba(255,245,248,.58); z-index: 2; }
     .hero-card img { width: auto; height: auto; max-width: 100%; display: block; filter: saturate(1.03) contrast(1.04); transition: filter .28s ease; }
     .hero-card:hover img { filter: saturate(1.12) contrast(1.08) brightness(1.04); }
-    .hero-shot-1 { grid-column: 3 / span 3; grid-row: 1 / span 2; }
-    .hero-shot-2 { grid-column: 6 / span 4; grid-row: 1 / span 3; }
-    .hero-shot-3 { grid-column: 10 / span 2; grid-row: 1 / span 2; }
-    .hero-shot-4 { grid-column: 3 / span 2; grid-row: 3 / span 2; }
-    .hero-shot-5 { grid-column: 5 / span 2; grid-row: 4 / span 2; }
-    .hero-shot-6 { grid-column: 7 / span 3; grid-row: 4 / span 2; }
-    .hero-shot-7 { grid-column: 10 / span 2; grid-row: 3 / span 2; }
-    .hero-shot-8 { grid-column: 2 / span 3; grid-row: 5 / span 2; }
-    .hero-shot-9 { grid-column: 5 / span 2; grid-row: 6 / span 2; }
-    .hero-shot-10 { grid-column: 7 / span 3; grid-row: 6 / span 2; }
-    .hero-shot-11 { grid-column: 10 / span 2; grid-row: 5 / span 2; }
-    .hero-shot-12 { grid-column: 4 / span 2; grid-row: 5 / span 2; }
-    .hero-shot { grid-column: 6 / span 2; grid-row: 3 / span 2; }
+
+    /* ─── HERO COLLAGE (intentional layout) ─────────────────── */
+    .hero-card { will-change: transform; }
+    .hero-card::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(to top, rgba(34,10,18,.35), rgba(34,10,18,0) 55%);
+      opacity:.55;
+      pointer-events:none;
+      transition: opacity .28s ease;
+    }
+    .hero-card:hover::after{ opacity:.35; }
+
+    /* Collage: no single main image, denser to the right */
+    .hero-main { grid-column: 6 / span 4; grid-row: 1 / span 3; border-radius: 16px; }
+    .hero-main img { width: 100%; height: 100%; object-fit: cover; }
+
+    .hero-accent-1 { grid-column: 3 / span 2; grid-row: 1 / span 2; }
+    .hero-accent-2 { grid-column: 10 / span 3; grid-row: 1 / span 2; }
+    .hero-accent-3 { grid-column: 2 / span 3; grid-row: 3 / span 2; }
+    .hero-accent-4 { grid-column: 8 / span 3; grid-row: 3 / span 2; }
+
+    .hero-tile-1 { grid-column: 7 / span 2; grid-row: 4 / span 2; border-radius: 12px; }
+    .hero-tile-2 { grid-column: 10 / span 2; grid-row: 4 / span 2; border-radius: 12px; }
+    .hero-tile-3 { grid-column: 9 / span 3; grid-row: 6 / span 2; border-radius: 12px; }
+
+    .hero-micro-1 { grid-column: 5 / span 2; grid-row: 5 / span 2; border-radius: 12px; }
+    .hero-micro-2 { grid-column: 7 / span 2; grid-row: 6 / span 2; border-radius: 12px; }
+    .hero-micro-3 { grid-column: 11 / span 2; grid-row: 5 / span 2; border-radius: 12px; }
+    .hero-micro-4 { grid-column: 3 / span 2; grid-row: 5 / span 2; border-radius: 12px; opacity: .94; }
+
+    .hero-accent-1 img,
+    .hero-accent-2 img,
+    .hero-accent-3 img,
+    .hero-accent-4 img,
+    .hero-tile-1 img,
+    .hero-tile-2 img,
+    .hero-tile-3 img,
+    .hero-micro-1 img,
+    .hero-micro-2 img,
+    .hero-micro-3 img,
+    .hero-micro-4 img { width: 100%; height: 100%; object-fit: cover; }
+
+    .hero-accent-1, .hero-accent-2, .hero-accent-3, .hero-accent-4,
+    .hero-tile-1, .hero-tile-2, .hero-tile-3,
+    .hero-micro-1, .hero-micro-2, .hero-micro-3, .hero-micro-4 {
+      align-self: stretch; justify-self: stretch;
+    }
     .hero-content {
       position: relative; z-index: 2;
       padding: clamp(40px, 8vw, 80px) clamp(24px, 6vw, 80px);
       max-width: 800px;
       animation: heroUp 1.2s cubic-bezier(.16,1,.3,1) .3s both;
     }
+    /* Put copy above the logo so we can overlap */
+    .hero-copy { position: relative; z-index: 3; }
     @keyframes heroUp { from { opacity:0; transform: translateY(40px); } to { opacity:1; transform: none; } }
     .hero-eyebrow {
       font-family: var(--ff-caps);
@@ -223,25 +276,33 @@
     .hero-eyebrow::before {
       content: ''; display: block; width: 40px; height: 1px; background: var(--amber);
     }
-    .hero-title {
-      font-family: var(--ff-logo);
-      font-size: clamp(52px, 11vw, 110px);
-      font-weight: 400;
-      line-height: .92;
-      color: var(--cream);
-      letter-spacing: .01em;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      -webkit-text-stroke: 2px var(--crimson);
-      paint-order: stroke fill;
-      text-shadow: 4px 4px 0 var(--crimson-dk), 6px 6px 0 rgba(0,0,0,.3);
+    .hero-logo{
+      width: min(560px, 92vw);
+      position: relative;
+      top: 40px;           /* move logo block directly downward */
+      margin: 0 0 -10px;   /* pull following text back up slightly */
     }
-    .hero-title em {
-      font-style: normal;
-      color: var(--crimson);
+    .hero-logo img{
+      width: 100%;
+      height: auto;
       display: block;
-      -webkit-text-stroke: 2px var(--crimson-dk);
-      text-shadow: 3px 3px 0 var(--crimson-dk);
+      filter: drop-shadow(4px 4px 0 rgba(143,21,49,.9)) drop-shadow(10px 16px 24px rgba(0,0,0,.35));
+    }
+    .hero-logo-sub{
+      position: absolute;
+      left: 50%;
+      bottom: 18px;         /* moved down a lot more */
+      transform: translateX(-50%);
+      font-family: var(--ff-caps);
+      font-size: 20px;      /* larger label */
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      padding: 4px 12px;
+      background: rgba(34,10,18,.5);
+      border: 1px solid rgba(203,37,75,.45);
+      border-radius: 2px;
+      backdrop-filter: blur(12px);
     }
     .hero-sub {
       font-family: var(--ff-body);
@@ -569,13 +630,15 @@
     /* ─── RESPONSIVE ─────────────────────────────────────────── */
     @media (max-width: 900px) {
       .hero-media { grid-template-columns: repeat(8, minmax(0, 1fr)); grid-template-rows: repeat(6, minmax(0, 1fr)); }
-      .hero-shot-7, .hero-shot-8, .hero-shot-9, .hero-shot-10, .hero-shot-11, .hero-shot-12, .hero-shot { display: none; }
-      .hero-shot-1 { grid-column: 1 / span 3; grid-row: 1 / span 2; }
-      .hero-shot-2 { grid-column: 4 / span 4; grid-row: 1 / span 3; }
-      .hero-shot-3 { grid-column: 1 / span 2; grid-row: 3 / span 2; }
-      .hero-shot-4 { grid-column: 6 / span 2; grid-row: 3 / span 2; }
-      .hero-shot-5 { grid-column: 3 / span 2; grid-row: 4 / span 2; }
-      .hero-shot-6 { grid-column: 5 / span 2; grid-row: 4 / span 2; }
+      .hero-tile-3 { display: none; }
+      .hero-micro-1, .hero-micro-2, .hero-micro-3, .hero-micro-4 { display: none; }
+      .hero-main { grid-column: 2 / span 6; grid-row: 1 / span 4; }
+      .hero-accent-1 { grid-column: 1 / span 2; grid-row: 1 / span 2; }
+      .hero-accent-2 { grid-column: 7 / span 2; grid-row: 1 / span 2; }
+      .hero-accent-3 { grid-column: 1 / span 3; grid-row: 3 / span 2; }
+      .hero-accent-4 { grid-column: 6 / span 3; grid-row: 3 / span 2; }
+      .hero-tile-1 { grid-column: 2 / span 2; grid-row: 5 / span 2; }
+      .hero-tile-2 { grid-column: 6 / span 2; grid-row: 5 / span 2; }
       .about-grid { grid-template-columns: 1fr; }
       .about-img-float { display: none; }
       .about-img-main { aspect-ratio: 16/9; }
@@ -590,12 +653,16 @@
     }
     @media (max-width: 700px) {
       .hero-media { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(0, 1fr)); padding-top: 90px; }
-      .hero-shot-3, .hero-shot-4, .hero-shot-5, .hero-shot-6, .hero-shot-7, .hero-shot-8, .hero-shot-9, .hero-shot-10, .hero-shot-11, .hero-shot-12, .hero-shot { display: none; }
-      .hero-shot-1 { grid-column: 1 / span 2; grid-row: 2 / span 2; }
-      .hero-shot-2 { grid-column: 3 / span 2; grid-row: 2 / span 2; }
+      .hero-accent-1, .hero-accent-2, .hero-accent-3, .hero-accent-4,
+      .hero-tile-1, .hero-tile-2, .hero-tile-3,
+      .hero-micro-1, .hero-micro-2, .hero-micro-3, .hero-micro-4 { display: none; }
+      .hero-main { grid-column: 1 / span 4; grid-row: 1 / span 4; border-radius: 16px; transform: none !important; }
       .nav-links { display: none; }
       .nav-burger { display: flex; }
-      .hero-title { font-size: clamp(42px, 14vw, 72px); }
+      .nav-logo-img{ height: 64px; }
+      .nav-logo-sub{ bottom: 3px; font-size: 10px; }
+      .hero-logo{ width: min(420px, 92vw); top: 32px; margin: 0 0 -8px; }
+      .hero-logo-sub{ bottom: 22px; font-size: 17px; }
       .menu-panel { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
@@ -619,7 +686,13 @@
 
   <!-- ── NAV ─────────────────────────────────────────────────── -->
   <nav id="nav">
-    <a href="#hero" class="nav-logo">TIMBUKTU<span class="cafe-sub">Café</span></a>
+    <a href="#hero" class="nav-logo" aria-label="Timbuktu Café">
+      <span class="nav-logo-lockup" aria-hidden="true">
+        <img class="nav-logo-img" src="logo.svg" alt="" />
+        <span class="nav-logo-sub">Café</span>
+      </span>
+      <span class="sr-only">Timbuktu Café</span>
+    </a>
     <ul class="nav-links">
       <li><a href="#about">Our Story</a></li>
       <li><a href="#menu">Menu</a></li>
@@ -644,30 +717,57 @@
   <!-- ── HERO ────────────────────────────────────────────────── -->
   <section id="hero">
     <div class="hero-media">
-      <figure class="hero-card hero-shot-1"><img src="Heroshot1.jpeg" alt="Timbuktu Café hero detail" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
-      <figure class="hero-card hero-shot-2"><img src="Herosho2.jpeg" alt="Timbuktu Café atmosphere" onerror="this.onerror=null;this.src='Heroshot2.jpg';" /></figure>
-      <figure class="hero-card hero-shot-3"><img src="Heroshot3.jpeg" alt="Timbuktu Café vintage detail" onerror="this.onerror=null;this.src='Heroshot3.jpg';" /></figure>
-      <figure class="hero-card hero-shot-4"><img src="Heroshot4.jpeg" alt="Timbuktu Café interior" onerror="this.onerror=null;this.src='Heroshot4.webp';" /></figure>
-      <figure class="hero-card hero-shot-5"><img src="Heroshot5.jpeg" alt="Timbuktu Café cuisine" onerror="this.onerror=null;this.src='Heroshot5.jpg';" /></figure>
-      <figure class="hero-card hero-shot-6"><img src="Heroshot6.jpeg" alt="Timbuktu Café platter" onerror="this.onerror=null;this.src='Heroshot6.jpg';" /></figure>
-      <figure class="hero-card hero-shot-7"><img src="Heroshot7.jpeg" alt="Timbuktu Café dish close-up" onerror="this.onerror=null;this.src='Heroshot7.jpg';" /></figure>
-      <figure class="hero-card hero-shot-8"><img src="Heroshot8.jpg" alt="Timbuktu Café decor detail" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
-      <figure class="hero-card hero-shot-9"><img src="Heroshot9.jpeg" alt="Timbuktu Café table scene" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
-      <figure class="hero-card hero-shot-10"><img src="Heroshot10.jpg" alt="Timbuktu Café ambience" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
-      <figure class="hero-card hero-shot-11"><img src="Heroshot11.jpg" alt="Timbuktu Café close-up" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
-      <figure class="hero-card hero-shot-12"><img src="Heroshot12.jpg" alt="Timbuktu Café mood shot" onerror="this.onerror=null;this.src='Heroshot.png';" /></figure>
-      <figure class="hero-card hero-shot"><img src="Heroshot7.jpeg" alt="Timbuktu Café dish close-up" onerror="this.onerror=null;this.src='Heroshot7.jpg';" /></figure>
+      <!-- Editorial-style collage: one focal image + a few accents -->
+      <figure class="hero-card hero-main">
+        <img src="Heroshotmain.jpeg" alt="Timbuktu Café interior and atmosphere" loading="eager" />
+      </figure>
+      <figure class="hero-card hero-accent-1">
+        <img src="Heroshot1.jpeg" alt="Timbuktu Café detail" loading="eager" />
+      </figure>
+      <figure class="hero-card hero-accent-2">
+        <img src="Herosho2.jpeg" alt="Timbuktu Café ambience" loading="eager" />
+      </figure>
+      <figure class="hero-card hero-accent-3">
+        <img src="Food_Picture3.jpg" alt="Ethiopian platter" loading="lazy" />
+      </figure>
+      <figure class="hero-card hero-accent-4">
+        <img src="AtmospherePicture1.jpg" alt="Restaurant interior detail" loading="lazy" />
+      </figure>
+      <figure class="hero-card hero-tile-1">
+        <img src="Food_Picture1.jpg" alt="Ethiopian dish" loading="lazy" />
+      </figure>
+      <figure class="hero-card hero-tile-2">
+        <img src="Heroshot7.jpeg" alt="Ethiopian dish close-up" loading="lazy" />
+      </figure>
+      <figure class="hero-card hero-tile-3">
+        <img src="AtmospherePicture2.jpg" alt="Timbuktu Café decor detail" loading="lazy" />
+      </figure>
+      <figure class="hero-card hero-micro-1">
+        <img src="Heroshot3.jpeg" alt="Restaurant detail" loading="lazy" />
+      </figure>
+      <figure class="hero-card hero-micro-2">
+        <img src="Heroshot4.jpeg" alt="Cafe interior" loading="lazy" />
+      </figure>
+      <figure class="hero-card hero-micro-3">
+        <img src="Food_Picture2.jpg" alt="Ethiopian food" loading="lazy" />
+      </figure>
+      <figure class="hero-card hero-micro-4">
+        <img src="AtmospherePicture3.webp" alt="Timbuktu Café atmosphere" loading="lazy" />
+      </figure>
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <p class="hero-eyebrow">Observatory · Cape Town</p>
-      <h1 class="hero-title">
-        TIMBUKTU<em>CAFÉ</em>
-      </h1>
-      <p class="hero-sub">Authentic Ethiopian flavours. A home filled with stories. A table waiting for you.</p>
-      <div class="hero-actions">
-        <a href="#menu" class="btn-primary">Explore the Menu</a>
-        <a href="#info" class="btn-outline">Find Us</a>
+      <div class="hero-copy">
+        <div class="hero-logo" aria-label="Timbuktu Café">
+          <img src="logo.svg" alt="Timbuktu" />
+          <span class="hero-logo-sub" aria-hidden="true">Café</span>
+        </div>
+        <p class="hero-eyebrow">Observatory · Cape Town</p>
+        <p class="hero-sub">Authentic Ethiopian flavours. A home filled with stories. A table waiting for you.</p>
+        <div class="hero-actions">
+          <a href="#menu" class="btn-primary">Explore the Menu</a>
+          <a href="#info" class="btn-outline">Find Us</a>
+        </div>
       </div>
     </div>
     <div class="hero-scroll">
